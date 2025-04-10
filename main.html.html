@@ -65,7 +65,7 @@
     .funded {
       color: white;
       margin-left: 1px;
-      opacity:0.7;
+      opacity: 0.7;
     }
 
     .container {
@@ -215,7 +215,6 @@
     .invite-btn:hover {
       transform: scale(1.05);
     }
-
   </style>
 </head>
 <body>
@@ -230,7 +229,7 @@
     <div class="top-banner">
       <p>Invite 5 people and get a FREE 2k Account!</p>
     </div>
-    
+
     <h2 style="margin-bottom: 10px;">Easiest Forex Prop Firm To Get Funded</h2>
     <p class="description">Unlock the potential of your financial journey with BlackArrow. Take control and grow with funding solutions tailored to your success.</p>
     <div class="animated-border">
@@ -239,33 +238,7 @@
 
     <section style="padding: 60px 20px; background: #0e0e0e; color: #fff; font-family: 'Poppins', sans-serif;">
       <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px; color: #ffdd57;">Choose Your Challenge</h2>
-      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: auto;">
-        <script>
-          const plans = [
-            { name: "2K Plan", price: 10 },
-            { name: "5K Plan", price: 19 },
-            { name: "10K Plan", price: 35 },
-            { name: "50K Plan", price: 155 },
-            { name: "100K Plan", price: 300 }
-          ];
-
-          document.write(plans.map(plan => `
-            <div style="background: #1a1a1a; padding: 30px 20px; border-radius: 12px; width: 300px; text-align: center; box-shadow: 0 0 20px rgba(255,255,255,0.05);">
-              <h3 style="font-size: 20px; color: #fff;">${plan.name}</h3>
-              <p style="font-size: 24px; font-weight: bold; margin: 10px 0; color: #ff4b2b;">$${plan.price}</p>
-              <ul style="list-style: none; padding: 0; margin: 15px 0; font-size: 14px; color: #ccc;">
-                <li>10% Profit Target</li>
-                <li>6% Daily Drawdown</li>
-                <li>12% Total Maximum Drawdown</li>
-                <li>4 Min Trading Days</li>
-                <li>First Payout After 7 Days</li>
-                <li>90% Profit Share</li>
-              </ul>
-              <button class="challenge-btn" onclick="redirectToCheckout('${plan.name}', ${plan.price})">Start Now</button>
-            </div>
-          `).join(""));
-        </script>
-      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: auto;" id="planCards"></div>
     </section>
 
     <div class="section">
@@ -308,7 +281,7 @@
       </a>
     </div>
     <div>
-      Contact us: 
+      Contact us:
       <a href="mailto:blackarrowprofirm@gmail.com" style="color: #ffdd57; text-decoration: none;">
         support@blackarrowprofirm.com
       </a>
@@ -317,8 +290,9 @@
   </footer>
 
   <script>
+    // Copy Invite Link
     function copyInviteLink() {
-      const inviteLink = "https://blackarrowprofirm.com/invite?code=FREE2K";
+      const inviteLink = "https://masterproultra.github.io/testing/main.html";
       const dummyInput = document.createElement("input");
       document.body.appendChild(dummyInput);
       dummyInput.value = inviteLink;
@@ -333,12 +307,47 @@
       }, 2000);
     }
 
+    // Redirect to checkout with selected plan
     function redirectToCheckout(planName, planPrice) {
-      const url = new URL("checkout.html", window.location.origin);
-      url.searchParams.set("plan", planName);
-      url.searchParams.set("price", planPrice);
-      window.location.href = url.toString();
+      const encodedName = encodeURIComponent(planName);
+      const encodedPrice = encodeURIComponent(planPrice);
+      window.location.href = `checkout.html?plan=${encodedName}&price=${encodedPrice}`;
     }
+
+    // Create Plan Cards Dynamically
+    const plans = [
+      { name: "2K Plan", price: 10 },
+      { name: "5K Plan", price: 19 },
+      { name: "10K Plan", price: 35 },
+      { name: "50K Plan", price: 155 },
+      { name: "100K Plan", price: 300 }
+    ];
+
+    const planContainer = document.getElementById("planCards");
+
+    plans.forEach(plan => {
+      const card = document.createElement("div");
+      card.style.background = "#1a1a1a";
+      card.style.padding = "30px 20px";
+      card.style.borderRadius = "12px";
+      card.style.width = "300px";
+      card.style.textAlign = "center";
+      card.style.boxShadow = "0 0 20px rgba(255,255,255,0.05)";
+      card.innerHTML = `
+        <h3 style="font-size: 20px; color: #fff;">${plan.name}</h3>
+        <p style="font-size: 24px; font-weight: bold; margin: 10px 0; color: #ff4b2b;">$${plan.price}</p>
+        <ul style="list-style: none; padding: 0; margin: 15px 0; font-size: 14px; color: #ccc;">
+          <li>10% Profit Target</li>
+          <li>6% Daily Drawdown</li>
+          <li>12% Total Maximum Drawdown</li>
+          <li>4 Min Trading Days</li>
+          <li>First Payout After 7 Days</li>
+          <li>90% Profit Share</li>
+        </ul>
+        <button class="challenge-btn" onclick="redirectToCheckout('${plan.name}', ${plan.price})">Start Now</button>
+      `;
+      planContainer.appendChild(card);
+    });
   </script>
 </body>
 </html>
