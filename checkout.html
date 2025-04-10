@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,16 +152,18 @@
 
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
   <script>
+    // Extract query parameters
     const params = new URLSearchParams(window.location.search);
     const plan = params.get('plan') || 'Unknown';
     const price = params.get('price') || '0';
 
+    // Display plan data
     document.getElementById('planTitle').textContent = `Selected Plan: ${plan}`;
     document.getElementById('planPrice').textContent = `Price: $${price}`;
 
+    // Initialize international phone input
     const phoneInput = document.querySelector("#phone");
     const countrySelect = document.getElementById("country");
-
     const iti = window.intlTelInput(phoneInput, {
       separateDialCode: true,
       initialCountry: "us",
@@ -170,6 +173,7 @@
       utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
     });
 
+    // Sync country select with phone input
     countrySelect.addEventListener("change", function () {
       const selectedCountry = this.value.toLowerCase();
       if (selectedCountry) {
@@ -177,17 +181,14 @@
       }
     });
 
+    // Toggle password visibility
     function togglePassword(id, el) {
       const input = document.getElementById(id);
-      if (input.type === "password") {
-        input.type = "text";
-        el.textContent = "🙈";
-      } else {
-        input.type = "password";
-        el.textContent = "👁️";
-      }
+      input.type = input.type === "password" ? "text" : "password";
+      el.textContent = input.type === "password" ? "👁️" : "🙈";
     }
 
+    // Handle form submission
     document.getElementById("checkoutForm").addEventListener("submit", function (event) {
       event.preventDefault();
       const form = event.target;
@@ -210,6 +211,7 @@
 
       if (!allValid) return;
 
+      // Get blockchain address
       const selectedBlockchain = form.blockchain.value;
       let walletAddress = "";
       switch (selectedBlockchain) {
@@ -224,10 +226,12 @@
           break;
       }
 
+      // Store for later use
       localStorage.setItem("selectedBlockchain", selectedBlockchain);
       localStorage.setItem("selectedPrice", price);
       localStorage.setItem("walletAddress", walletAddress);
 
+      // Redirect to payment page
       window.location.href = `crypto-payment.html?plan=${encodeURIComponent(plan)}&price=${encodeURIComponent(price)}&blockchain=${encodeURIComponent(selectedBlockchain)}&wallet=${encodeURIComponent(walletAddress)}`;
     });
   </script>
